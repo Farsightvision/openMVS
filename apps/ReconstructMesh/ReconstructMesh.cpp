@@ -205,19 +205,7 @@ bool Initialize(size_t argc, LPCTSTR* argv)
 	if (OPT::strOutputFileName.empty())
 		OPT::strOutputFileName = Util::getFileFullName(OPT::strInputFileName) + _T("_mesh.mvs");
 
-	// initialize global options
-	Process::setCurrentProcessPriority((Process::Priority)OPT::nProcessPriority);
-	#ifdef _USE_OPENMP
-	if (OPT::nMaxThreads != 0)
-		omp_set_num_threads(OPT::nMaxThreads);
-	#endif
-
-	#ifdef _USE_BREAKPAD
-	// start memory dumper
-	MiniDumper::Create(APPNAME, WORKING_FOLDER);
-	#endif
-
-	Util::Init();
+	MVS::Initialize(APPNAME, OPT::nMaxThreads, OPT::nProcessPriority);
 	return true;
 }
 
